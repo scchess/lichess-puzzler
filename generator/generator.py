@@ -302,10 +302,10 @@ def main() -> None:
                         tier = min(tier, r_tier)
                     elif t_tier is not None:
                         tier = min(tier, t_tier)
-                    elif line.startswith("1. ") and skip_next:
-                        logger.debug("Skip {}".format(site))
-                        skip_next = False
-                    elif "%eval" in line:
+                    #elif line.startswith("1. ") and skip_next:
+                    #    logger.debug("Skip {}".format(site))
+                    #    skip_next = False
+                    elif line.strip() != "" and "[" not in line:
                         tier = tier + 1 if has_master else tier
                         game = chess.pgn.read_game(StringIO("{}\n{}".format(site, line)))
                         assert(game)
