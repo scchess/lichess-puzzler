@@ -273,6 +273,19 @@ def main() -> None:
     part = int(args.part)
     print(f'v{version} {args.file} {part}/{parts}')
 
+    #
+    # Added by Ted Wong
+    #
+
+    with open(args.file) as r:
+        game = chess.pgn.read_game(r)
+        while game:
+            puzzle = generator.analyze_game(game, 3)
+            if puzzle:
+                print(puzzle)
+            game = chess.pgn.read_game(r)
+    return None
+
     try:
         with open_file(args.file) as pgn:
             skip_next = False
