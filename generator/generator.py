@@ -200,12 +200,12 @@ class Generator:
                 logger.debug("Not clearly winning and not from being down in material, aborting")
                 return score
             logger.debug("Advantage {}#{} {} -> {}. Probing...".format(game_url, node.ply(), prev_score, score))
-            if self.server.is_seen_pos(node):
-                logger.debug("Skip duplicate position")
-                return score
+            #if self.server.is_seen_pos(node):
+            #    logger.debug("Skip duplicate position")
+            #    return score
             puzzle_node = copy.deepcopy(node)
             solution : Optional[List[NextMovePair]] = self.cook_advantage(puzzle_node, winner)
-            self.server.set_seen(node.game())
+            #self.server.set_seen(node.game())
             if not solution:
                 return score
             while len(solution) % 2 == 0 or not solution[-1].second:
@@ -284,11 +284,11 @@ def main() -> None:
                     tier = 4
                 elif games < skip:
                     continue
-                elif games % parts != part - 1:
-                    continue
-                if tier == 0:
-                    skip_next = True
-                elif line.startswith("[Variant ") and not line.startswith("[Variant \"Standard\"]"):
+                #elif games % parts != part - 1:
+                #    continue
+                #if tier == 0:
+                #    skip_next = True
+                if line.startswith("[Variant ") and not line.startswith("[Variant \"Standard\"]"):
                     skip_next = True
                 elif (
                         (line.startswith("[WhiteTitle ") or line.startswith("[BlackTitle ")) and
@@ -310,11 +310,11 @@ def main() -> None:
                         game = chess.pgn.read_game(StringIO("{}\n{}".format(site, line)))
                         assert(game)
                         game_id = game.headers.get("Site", "?")[20:]
-                        if server.is_seen(game_id):
-                            to_skip = 0
-                            logger.info(f'Game was already seen before, skipping {to_skip} - {games}')
-                            skip = games + to_skip
-                            continue
+                        #if server.is_seen(game_id):
+                        #    to_skip = 0
+                        #    logger.info(f'Game was already seen before, skipping {to_skip} - {games}')
+                        #    skip = games + to_skip
+                        #    continue
 
                         # logger.info(f'https://lichess.org/{game_id} tier {tier}')
                         try:
